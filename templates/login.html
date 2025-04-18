@@ -22,20 +22,69 @@
             {% endif %}
         {% endwith %}
 
-        <form action="/authenticate" method="post">
+        <form id="auth-form">
             <div class="form-group">
                 <label for="user_id">User ID</label>
                 <input type="text" name="user_id" id="user_id" required placeholder="Enter your user ID">
             </div>
             
             <div class="verification-code">
-                Your verification code is: <strong>{{ verification_code }}</strong>
+                Your verification code is: <strong id="code">{{ verification_code }}</strong>
             </div>
-            
-            <button type="submit">Authenticate with Voice</button>
+
+            <button type="button" onclick="startRecording()">🎙️ Start Voice Authentication</button>
         </form>
         
         <a href="/register" class="link">Don't have an account? Register Instead</a>
     </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+
+        function startRecording() {
+            const userId = document.getElementById('user_id').value;
+            const verificationCode = document.getElementById('code').innerText;
+
+            if (!userId) {
+                alert("Please enter your User ID first.");
+                return;
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('user_id', userId);
+                    formData.append('verification_code', verificationCode);
+                    formData.append('audio', audioBlob, 'voice.wav');
+
+                    fetch('/authenticate', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(() => window.location.reload())
+                    .catch(err => alert("Authentication failed: " + err));
+                };
+
+                alert("Recording started... Speak now.");
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                    alert("Recording finished. Verifying...");
+                }, 3000); // record for 3 seconds
+            }).catch(err => {
+                alert("Microphone access denied: " + err);
+            });
+        }
+    </script>
 </body>
 </html>
