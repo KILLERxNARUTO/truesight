@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Voice</title>
+    <style>
+        /* ... (keep all your existing styles) ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register Your Voice</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="messages">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <div class="instructions">
+            <h3>Registration Instructions</h3>
+            <p>1. Enter your User ID</p>
+            <p>2. Speak the verification code clearly when prompted</p>
+            <p>3. Your voice will be recorded for authentication</p>
+        </div>
+
+        <form action="/register_voice" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="user_id">User ID</label>
+                <input type="text" name="user_id" id="user_id" required placeholder="Choose your user ID">
+            </div>
+            
+            <div class="form-group">
+                <label for="audio">Voice Recording</label>
+                <input type="file" name="audio" id="audio" accept="audio/*" required>
+            </div>
+            
+            <div class="verification-code">
+                Your verification code is: <strong>{{ verification_code }}</strong>
+            </div>
+            
+            <button type="submit">Register Voice</button>
+        </form>
+        
+        <a href="/login" class="link">Already registered? Back to Login</a>
+    </div>
+</body>
+</html>

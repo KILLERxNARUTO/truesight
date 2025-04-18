@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Login</title>
+    <style>
+        /* ... (keep all your existing styles) ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Voice Authentication</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="messages">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/authenticate" method="post">
+            <div class="form-group">
+                <label for="user_id">User ID</label>
+                <input type="text" name="user_id" id="user_id" required placeholder="Enter your user ID">
+            </div>
+            
+            <div class="verification-code">
+                Your verification code is: <strong>{{ verification_code }}</strong>
+            </div>
+            
+            <button type="submit">Authenticate with Voice</button>
+        </form>
+        
+        <a href="/register" class="link">Don't have an account? Register Instead</a>
+    </div>
+</body>
+</html>
