@@ -25,29 +25,73 @@
         <div class="instructions">
             <h3>Registration Instructions</h3>
             <p>1. Enter your User ID</p>
-            <p>2. Speak the verification code clearly when prompted</p>
-            <p>3. Your voice will be recorded for authentication</p>
+            <p>2. Click the button to start voice recording</p>
+            <p>3. Speak the verification code clearly when prompted</p>
         </div>
 
-        <form action="/register_voice" method="post" enctype="multipart/form-data">
+        <form id="register-form">
             <div class="form-group">
                 <label for="user_id">User ID</label>
                 <input type="text" name="user_id" id="user_id" required placeholder="Choose your user ID">
             </div>
-            
-            <div class="form-group">
-                <label for="audio">Voice Recording</label>
-                <input type="file" name="audio" id="audio" accept="audio/*" required>
-            </div>
-            
+
             <div class="verification-code">
-                Your verification code is: <strong>{{ verification_code }}</strong>
+                Your verification code is: <strong id="code">{{ verification_code }}</strong>
             </div>
             
-            <button type="submit">Register Voice</button>
+            <button type="button" onclick="startRecording()">🎙️ Register Voice</button>
         </form>
-        
+
         <a href="/login" class="link">Already registered? Back to Login</a>
     </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+
+        function startRecording() {
+            const userId = document.getElementById('user_id').value;
+            const verificationCode = document.getElementById('code').innerText;
+
+            if (!userId) {
+                alert("Please enter your User ID first.");
+                return;
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.start();
+                audioChunks = [];
+
+                mediaRecorder.ondataavailable = event => {
+                    audioChunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                    const formData = new FormData();
+                    formData.append('user_id', userId);
+                    formData.append('verification_code', verificationCode);
+                    formData.append('audio', audioBlob, 'voice.wav');
+
+                    fetch('/register_voice', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.text())
+                    .then(() => window.location.reload())
+                    .catch(err => alert("Registration failed: " + err));
+                };
+
+                alert("Recording started... Speak the verification code now.");
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                    alert("Recording complete. Uploading...");
+                }, 3000); // 3 seconds of recording
+            }).catch(err => {
+                alert("Microphone access denied: " + err);
+            });
+        }
+    </script>
 </body>
 </html>
