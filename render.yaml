@@ -1,7 +1,7 @@
 services:
   - type: web
-    name: voice-auth-backend
+    name: voice-authentication
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app
-    plan: free
+    publishDirectory: .
