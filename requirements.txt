@@ -1,0 +1,9 @@
+Flask
+librosa
+sounddevice
+numpy
+tensorflow
+pymongo
+scikit-learn
+scipy
+fastdtw
