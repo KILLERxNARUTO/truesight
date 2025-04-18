@@ -5,6 +5,7 @@ import numpy as np
 import sounddevice as sd
 from pymongo import MongoClient
 from sklearn.preprocessing import StandardScaler
+import tensorflow as tf
 from tensorflow.keras.models import load_model, Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.utils import to_categorical
@@ -14,6 +15,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 from fastdtw import fastdtw
 from scipy.spatial.distance import euclidean
 from sklearn.model_selection import train_test_split
+
+cnn_model = tf.keras.models.load_model(r"model\voice_auth_cnn_model.keras")
+
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # More secure secret key
