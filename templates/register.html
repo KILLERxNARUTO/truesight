@@ -1,97 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Voice</title>
-    <style>
-        /* ... (keep all your existing styles) ... */
-    </style>
+  <meta charset="UTF-8">
+  <title>Register | TrueSight</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Fonts & Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/register-style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h2>Register Your Voice</h2>
-        
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="messages">
-                {% for category, message in messages %}
-                    <li class="{{ category }}">{{ message }}</li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
 
-        <div class="instructions">
-            <h3>Registration Instructions</h3>
-            <p>1. Enter your User ID</p>
-            <p>2. Click the button to start voice recording</p>
-            <p>3. Speak the verification code clearly when prompted</p>
-        </div>
-
-        <form id="register-form">
-            <div class="form-group">
-                <label for="user_id">User ID</label>
-                <input type="text" name="user_id" id="user_id" required placeholder="Choose your user ID">
-            </div>
-
-            <div class="verification-code">
-                Your verification code is: <strong id="code">{{ verification_code }}</strong>
-            </div>
-            
-            <button type="button" onclick="startRecording()">🎙️ Register Voice</button>
-        </form>
-
-        <a href="/login" class="link">Already registered? Back to Login</a>
+  <div class="login-card">
+    <!-- LEFT BOX: Branding -->
+    <div class="left-box">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="TrueSight Logo" class="logo">
+      <h2>Sign up to</h2>
+      <h1>TrueSight</h1>
+      <p>If you already have an account,<br>
+         you can <a href="/login" class="register-link">login here</a>.
+      </p>
+      <img src="{{ url_for('static', filename='img/3d-user.png') }}" alt="3D User" class="character">
     </div>
 
-    <script>
-        let mediaRecorder;
-        let audioChunks = [];
+    <!-- RIGHT BOX: Register Form -->
+    <div class="right-box">
+      <h2>REGISTER</h2>
+      <form id="registerForm">
+        <input type="text" id="user_id" placeholder="Enter user ID" required />
+        <input type="text" id="verification_code" placeholder="Verification Code" required />
+        <button type="button" id="getCodeBtn">Get Code</button>
+        <button type="button" id="recordBtn">Record 10 Samples</button>
+        <button type="submit" id="submitBtn" disabled>Register</button>
+      </form>
+      <p id="codeDisplay"></p>
+      <p id="status"></p>
+      <p id="response"></p>
+    </div>
+  </div>
 
-        function startRecording() {
-            const userId = document.getElementById('user_id').value;
-            const verificationCode = document.getElementById('code').innerText;
+  <!-- API Base for JS -->
+  <script>
+    const API_BASE = "https://d7e9-2409-40f4-3e-a641-9569-a154-d595-e5a0.ngrok-free.app";
+  </script>
 
-            if (!userId) {
-                alert("Please enter your User ID first.");
-                return;
-            }
+  <script src="{{ url_for('static', filename='js/register-script.js') }}"></script>
 
-            navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-                mediaRecorder = new MediaRecorder(stream);
-                mediaRecorder.start();
-                audioChunks = [];
-
-                mediaRecorder.ondataavailable = event => {
-                    audioChunks.push(event.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    const formData = new FormData();
-                    formData.append('user_id', userId);
-                    formData.append('verification_code', verificationCode);
-                    formData.append('audio', audioBlob, 'voice.wav');
-
-                    fetch('/register_voice', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(res => res.text())
-                    .then(() => window.location.reload())
-                    .catch(err => alert("Registration failed: " + err));
-                };
-
-                alert("Recording started... Speak the verification code now.");
-                setTimeout(() => {
-                    mediaRecorder.stop();
-                    alert("Recording complete. Uploading...");
-                }, 3000); // 3 seconds of recording
-            }).catch(err => {
-                alert("Microphone access denied: " + err);
-            });
-        }
-    </script>
 </body>
 </html>
