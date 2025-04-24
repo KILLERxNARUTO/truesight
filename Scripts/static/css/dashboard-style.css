@@ -1,0 +1,127 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #00094B;
+  font-family: 'Source Serif Pro', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: white;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 9, 75, 0.6); /* Semi-transparent */
+  backdrop-filter: blur(10px); /* BLUR effect */
+  padding: 40px 20px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 480px;
+  width: 90%;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.logo {
+  width: 500px;
+  margin-bottom: 25px;
+}
+
+.text-box {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.text-box form {
+  display: flex;
+  justify-content: center;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 18px;
+  font-style: italic;
+  margin: 12px 0 20px;
+  opacity: 0.85;
+}
+
+
+/* Logout Button */
+form button {
+  padding: 20px 40px;
+  font-size: 16px;
+  background-color: white;
+  color: #00094B;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+form button:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+@media screen and (max-width: 768px) {
+  .card {
+    padding: 20px 10px;
+  }
+
+  .logo {
+    width: 80%;
+    margin-bottom: 15px;
+    align-items: center
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  form button {
+    padding: 15px 30px;
+    font-size: 14px;
+  }
+  .text-box {
+    margin-bottom: 20px;
+  }
+  .text-box form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .text-box form input[type="text"] {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+  }
+}
