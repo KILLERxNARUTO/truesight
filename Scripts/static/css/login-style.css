@@ -1,0 +1,334 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom right, #ede9fe, #f3e8ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  animation: fadeInBody 0.6s ease-in;
+}
+
+@keyframes fadeInBody {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Login card */
+.login-card {
+  display: flex;
+  flex-direction: row;
+  width: 1100px;
+  max-width: 95%;
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.75), rgba(245, 240, 255, 0.85));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(95, 46, 234, 0.1);
+  border: 1px solid rgba(138, 131, 247, 0.2);
+  animation: slideFadeIn 0.6s ease;
+}
+
+@keyframes slideFadeIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+/* Left side */
+.left-box {
+  flex: 1;
+  background: #ffffff;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.logo {
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+.left-box h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.left-box h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.left-box p {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.register-link {
+  font-weight: 600;
+  color: #5f2eea;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.register-link:hover {
+  color: #3e19b8;
+  text-shadow: 0 0 2px rgba(95, 46, 234, 0.4);
+}
+
+.register-link:active {
+  animation: pulse-click 0.25s ease;
+}
+
+.character {
+  width: 250px;
+  align-self: center;
+  margin-top: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Right side */
+.right-box {
+  flex: 1;
+  background: linear-gradient(to bottom right, #ffffff, #ffffff);
+  padding: 100px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 10px rgba(138, 131, 247, 0.05);
+}
+
+.right-box h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 40px;
+  animation: fadeSlide 0.5s ease-in-out;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+form {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"] {
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  color: #333;
+  background: rgba(122, 107, 245, 0.08);
+  box-shadow: 0px 8px 20px rgba(122, 107, 245, 0.12);
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #c4b5fd;
+}
+
+input[readonly] {
+  cursor: default;
+  color: #888;
+  background-color: #f5f3ff;
+}
+
+/* Buttons */
+button {
+  padding: 14px 20px;
+  margin-bottom: 15px;
+  font-size: 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  transform: scale(1);
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+#recordButton {
+  background: linear-gradient(180deg, #dcd6ff 0%, #aaa3f9 100%);
+  color: #000;
+  box-shadow: 0px 10px 25px rgba(138, 131, 247, 0.3);
+}
+
+#recordButton:hover {
+  opacity: 0.9;
+}
+
+form button[type="submit"] {
+  background: #5f2eea;
+  color: #fff;
+  box-shadow: 0px 10px 25px rgba(95, 46, 234, 0.4);
+}
+
+form button[type="submit"]:hover {
+  background: #4d23cd;
+}
+
+/* Status and response */
+#status,
+#response {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-top: 10px;
+  min-height: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Pulse feedback on link click */
+@keyframes pulse-click {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    align-items: flex-start;
+    padding: 40px 20px;
+    height: auto;
+  }
+
+  .login-card {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px;
+    margin-top: 20px;
+  }
+
+  .left-box,
+  .right-box {
+    flex: none;
+    width: 100%;
+    padding: 25px 20px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .left-box {
+    order: 2;
+    padding-top: 10px;
+  }
+
+  .left-box h2,
+  .left-box h1 {
+    font-size: 20px;
+  }
+
+  .left-box h1 {
+    margin-bottom: 12px;
+  }
+
+  .left-box p {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .logo {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+
+  .character {
+    width: 160px;
+    margin-top: 20px;
+  }
+
+  .right-box {
+    order: 1;
+    padding-top: 30px;
+    padding-bottom: 10px;
+  }
+
+  .right-box h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  form {
+    max-width: 100%;
+  }
+
+  input[type="text"],
+  button {
+    font-size: 14px;
+    padding: 12px 16px;
+    width: 100%;
+  }
+
+  button {
+    margin-bottom: 12px;
+  }
+
+  #status,
+  #response {
+    font-size: 13px;
+  }
+}
